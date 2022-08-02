@@ -904,7 +904,7 @@ enum HidKeyboardKeysBE {
     HID_KEYBOARD_BE_E_BACKTICK = 0x24,
     HID_KEYBOARD_BE_EXCLAMATION = 0x25,
     HID_KEYBOARD_BE_C_CEDILLE = 0x26,
-	HID_KEYBOARD_BE_A_BACKTICK = 0x27,
+    HID_KEYBOARD_BE_A_BACKTICK = 0x27,
     HID_KEYBOARD_BE_RIGHT_PARENTHESIS = 0x2D,
     HID_KEYBOARD_BE_DASH = 0x2E,
     HID_KEYBOARD_BE_CIRCUMFLEX = 0x2F,
@@ -1080,13 +1080,11 @@ static const uint16_t hid_asciimap_be[] = {
     HID_KEYBOARD_NONE, // DEL
 };
 
-static const uint16_t* hid_asciimaps[] = {
-    hid_asciimap,
-    hid_asciimap_de,
-    hid_asciimap_fr,
-    hid_asciimap_hu,
-    hid_asciimap_be
-};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+static const uint16_t* hid_asciimaps[] =
+    {hid_asciimap, hid_asciimap_de, hid_asciimap_fr, hid_asciimap_hu, hid_asciimap_be};
+#pragma GCC diagnostic pop
 
 typedef struct {
     uint32_t vid;
@@ -1098,7 +1096,8 @@ typedef struct {
 typedef void (*HidStateCallback)(bool state, void* context);
 
 /** ASCII to keycode conversion macro */
-#define HID_ASCII_TO_KEY(x,y) (((uint8_t)y < 128) ? (hid_asciimaps[(uint8_t)x][(uint8_t)y]) : HID_KEYBOARD_NONE)
+#define HID_ASCII_TO_KEY(x, y) \
+    (((uint8_t)y < 128) ? (hid_asciimaps[(uint8_t)x][(uint8_t)y]) : HID_KEYBOARD_NONE)
 
 /** HID keyboard leds */
 enum HidKeyboardLeds {
