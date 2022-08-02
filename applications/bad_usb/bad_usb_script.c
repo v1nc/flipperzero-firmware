@@ -327,6 +327,9 @@ static uint16_t ducky_get_layout(const char* line) {
     else if(strcmp(line, "HU") == 0){
         layout = 3;
     }
+    else if(strcmp(line, "BE") == 0){
+        layout = 4;
+    }
     FURI_LOG_D(
             WORKER_TAG,
             "keyboard layout set: %hu",
