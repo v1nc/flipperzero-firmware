@@ -315,22 +315,16 @@ static int32_t ducky_parse_line(BadUsbScript* bad_usb, string_t line, const uint
 
 static uint16_t ducky_get_layout(const char* line) {
     uint16_t layout = 0;
-    if(strcmp(line, "US") == 0){
+    if(strcmp(line, "US") == 0) {
         layout = 0;
-    }
-    else if(strcmp(line, "DE") == 0){
+    } else if(strcmp(line, "DE") == 0) {
         layout = 1;
-    }
-    else if(strcmp(line, "FR") == 0){
+    } else if(strcmp(line, "FR") == 0) {
         layout = 2;
-    }
-    else if(strcmp(line, "HU") == 0){
+    } else if(strcmp(line, "HU") == 0) {
         layout = 3;
     }
-    FURI_LOG_D(
-            WORKER_TAG,
-            "keyboard layout set: %hu",
-            layout);
+    FURI_LOG_D(WORKER_TAG, "keyboard layout set: %hu", layout);
     return layout;
 }
 
@@ -392,14 +386,8 @@ static uint16_t ducky_script_preload(BadUsbScript* bad_usb, File* script_file) {
     bool id_set = false; // Looking for ID or DUCKY_LANG command at first line
     if(strncmp(line_tmp, ducky_cmd_id, strlen(ducky_cmd_id)) == 0) {
         id_set = ducky_set_usb_id(bad_usb, &line_tmp[strlen(ducky_cmd_id) + 1]);
-    }else if(strncmp(line_tmp, ducky_cmd_layout, strlen(ducky_cmd_layout)) == 0) {
+    } else if(strncmp(line_tmp, ducky_cmd_layout, strlen(ducky_cmd_layout)) == 0) {
         layout = ducky_get_layout(&line_tmp[strlen(ducky_cmd_layout) + 1]);
-    }
-
-    // Looking for DUCKY_LANG command at second line
-    const char* line2_tmp = string_get_cstr(bad_usb->line);
-    if(strncmp(line2_tmp, ducky_cmd_layout, strlen(ducky_cmd_layout)) == 0) {
-        layout = ducky_get_layout(&line2_tmp[strlen(ducky_cmd_layout) + 1]);
     }
 
     if(id_set) {
@@ -414,7 +402,8 @@ static uint16_t ducky_script_preload(BadUsbScript* bad_usb, File* script_file) {
     return layout;
 }
 
-static int32_t ducky_script_execute_next(BadUsbScript* bad_usb, File* script_file, const uint16_t layout) {
+static int32_t
+    ducky_script_execute_next(BadUsbScript* bad_usb, File* script_file, const uint16_t layout) {
     int32_t delay_val = 0;
 
     if(bad_usb->repeat_cnt > 0) {
@@ -507,7 +496,7 @@ static int32_t bad_usb_worker(void* context) {
                    FSAM_READ,
                    FSOM_OPEN_EXISTING)) {
                 layout = ducky_script_preload(bad_usb, script_file);
-                if((layout >=0) && (bad_usb->st.line_nb > 0)) {
+                if(bad_usb->st.line_nb > 0) {
                     if(furi_hal_hid_is_connected()) {
                         worker_state = BadUsbStateIdle; // Ready to run
                     } else {

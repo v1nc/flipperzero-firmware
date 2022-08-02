@@ -855,12 +855,11 @@ static const uint16_t hid_asciimap_hu[] = {
     HID_KEYBOARD_NONE, // HUL
 };
 
-static const uint16_t* hid_asciimaps[] = {
-    hid_asciimap,
-    hid_asciimap_de,
-    hid_asciimap_fr,
-    hid_asciimap_hu
-};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+static const uint16_t* hid_asciimaps[] =
+    {hid_asciimap, hid_asciimap_de, hid_asciimap_fr, hid_asciimap_hu};
+#pragma GCC diagnostic pop
 
 typedef struct {
     uint32_t vid;
@@ -872,7 +871,8 @@ typedef struct {
 typedef void (*HidStateCallback)(bool state, void* context);
 
 /** ASCII to keycode conversion macro */
-#define HID_ASCII_TO_KEY(x,y) (((uint8_t)y < 128) ? (hid_asciimaps[(uint8_t)x][(uint8_t)y]) : HID_KEYBOARD_NONE)
+#define HID_ASCII_TO_KEY(x, y) \
+    (((uint8_t)y < 128) ? (hid_asciimaps[(uint8_t)x][(uint8_t)y]) : HID_KEYBOARD_NONE)
 
 /** HID keyboard leds */
 enum HidKeyboardLeds {
