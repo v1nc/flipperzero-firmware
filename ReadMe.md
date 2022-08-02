@@ -20,7 +20,9 @@ Add `DUCKY_LANG DE` to the first or second line of the script to choose the layo
 Currently implemented:
 * `US` = US (default)
 * `DE` = German QWERTZ
-* `FR` = AZERTY (based on [this](https://github.com/ikazeer/flipperzero-AZERTY))
+* `FR` = AZERTY (thanks to [ikazeer](https://github.com/ikazeer/))
+* `HU` = Hungarian (thanks to [ut1s](https://github.com/ut1s))
+* `BE` = Belgian French (thanks to [Bramard](https://github.com/Bramard))
 
 **If you are writing payloads on windows you need to make sure EOL Conversion is set to LF Unix in your text editor and not windows CR LF. If you do not it will fail to run the payload.**
 
