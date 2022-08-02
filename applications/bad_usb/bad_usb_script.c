@@ -118,6 +118,8 @@ static const char ducky_cmd_altchar[] = {"ALTCHAR "};
 static const char ducky_cmd_altstr_1[] = {"ALTSTRING "};
 static const char ducky_cmd_altstr_2[] = {"ALTCODE "};
 
+static const char ducky_cmd_lang[] = {"DUCKY_LANG"};
+
 static const uint8_t numpad_keys[10] = {
     HID_KEYPAD_0,
     HID_KEYPAD_1,
@@ -256,7 +258,12 @@ static int32_t ducky_parse_line(BadUsbScript* bad_usb, string_t line) {
     } else if(strncmp(line_tmp, ducky_cmd_id, strlen(ducky_cmd_id)) == 0) {
         // ID - executed in ducky_script_preload
         return (0);
-    } else if(strncmp(line_tmp, ducky_cmd_delay, strlen(ducky_cmd_delay)) == 0) {
+    } else if(strncmp(line_tmp, ducky_cmd_lang, strlen(ducky_cmd_lang)) == 0) {
+        // DUCKY_LANG - ignore command to retain compatibility with existing scripts
+        return (0);
+    } 
+
+    else if(strncmp(line_tmp, ducky_cmd_delay, strlen(ducky_cmd_delay)) == 0) {
         // DELAY
         line_tmp = &line_tmp[ducky_get_command_len(line_tmp) + 1];
         uint32_t delay_val = 0;
