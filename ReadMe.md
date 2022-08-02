@@ -27,7 +27,7 @@ Currently implemented:
 **If you are writing payloads on windows you need to make sure EOL Conversion is set to LF Unix in your text editor and not windows CR LF. If you do not it will fail to run the payload.**
 
 
-The great user [dummy-decoy](https://github.com/dummy-decoy) already implemented loading layout files from the SD card, [this](https://github.com/dummy-decoy/flipperzero-firmware/tree/dummy_decoy/bad_usb_keyboard_layout) will be merged soon. He also has a good way to generate layout files, so please dont create new layouts manually :)
+The great user [dummy-decoy](https://github.com/dummy-decoy) already implemented loading layout files from the SD card, [this](https://github.com/dummy-decoy/flipperzero-firmware/tree/dummy_decoy/bad_usb_keyboard_layout) was merged to the [sd_card_layouts](https://github.com/v1nc/flipperzero-firmware/tree/sd_card_layouts) branch and will be merged to my dev branch once there are more layouts to use. He also has a good way to generate layout files, so please dont create new layouts manually :)
 
 ### additional plugins:
 * [MouseJiggler](https://github.com/RogueMaster/flipperzero-firmware-wPlugins/tree/unleashed/applications/mouse_jiggler)
