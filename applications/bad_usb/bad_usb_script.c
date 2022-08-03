@@ -315,16 +315,16 @@ static int32_t ducky_parse_line(BadUsbScript* bad_usb, string_t line, const uint
 
 static uint16_t ducky_get_layout(const char* line) {
     uint16_t layout = 0;
-    if(strcmp(line, "US") == 0) {
+    if(strncmp(line, "US", 2) == 0) {
         layout = 0;
-    } else if(strcmp(line, "DE") == 0) {
+    } else if(strncmp(line, "DE", 2) == 0) {
         layout = 1;
-    } else if(strcmp(line, "FR") == 0) {
+    } else if(strncmp(line, "FR", 2) == 0) {
         layout = 2;
-    } else if(strcmp(line, "HU") == 0) {
+    } else if(strncmp(line, "HU", 2) == 0) {
         layout = 3;
     }
-    else if(strcmp(line, "BE") == 0){
+    else if(strncmp(line, "BE", 2) == 0){
         layout = 4;
     }
     FURI_LOG_D(WORKER_TAG, "keyboard layout set: %hu", layout);
