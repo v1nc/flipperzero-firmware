@@ -48,6 +48,11 @@ App(
         "tetris_game",
         "arkanoid_game",
         "tictactoe_game",
+        "INTAPP_Chip8",
+        "GAME_FlappyBird",
+        "GAME_VideoPoker",
+        "GAME_2048",
+        "GAME_GameOfLife",
     ],
 )
 
@@ -76,5 +81,7 @@ App(
         "wifi_marauder",
         "esp8266_deauth",
         "wifi_scanner",
+        "APPS_MouseJiggler",
+        "APPS_WAVPlayer",
     ],
 )
