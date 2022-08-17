@@ -14,12 +14,14 @@
 
 #define TAG "WavPlayer"
 
-static bool open_wav_stream(Storage* storage, Stream* stream) {
+#define WAVPLAYER_FOLDER "/ext/wav_player"
+
+static bool open_wav_stream(Stream* stream) {
     DialogsApp* dialogs = furi_record_open("dialogs");
     bool result = false;
     string_t path;
     string_init(path);
-    string_set_str(path, "/ext/wav_player");
+    string_set_str(path, WAVPLAYER_FOLDER);
     bool ret = dialog_file_browser_show(dialogs, path, path, ".wav", true, &I_music_10px, false);
 
     furi_record_close("dialogs");
@@ -94,7 +96,7 @@ static WavPlayerApp* app_alloc() {
     WavPlayerApp* app = malloc(sizeof(WavPlayerApp));
     app->samples_count_half = 1024 * 4;
     app->samples_count = app->samples_count_half * 2;
-    app->storage = furi_record_open("storage");
+    app->storage = furi_record_open(RECORD_STORAGE);
     app->stream = file_stream_alloc(app->storage);
     app->parser = wav_parser_alloc();
     app->sample_buffer = malloc(sizeof(uint16_t) * app->samples_count);
@@ -104,7 +106,7 @@ static WavPlayerApp* app_alloc() {
     app->volume = 10.0f;
     app->play = true;
 
-    app->gui = furi_record_open("gui");
+    app->gui = furi_record_open(RECORD_GUI);
     app->view_dispatcher = view_dispatcher_alloc();
     app->view = wav_player_view_alloc();
 
@@ -122,14 +124,14 @@ static void app_free(WavPlayerApp* app) {
     view_dispatcher_remove_view(app->view_dispatcher, 0);
     view_dispatcher_free(app->view_dispatcher);
     wav_player_view_free(app->view);
-    furi_record_close("gui");
+    furi_record_close(RECORD_GUI);
 
     furi_message_queue_free(app->queue);
     free(app->tmp_buffer);
     free(app->sample_buffer);
     wav_parser_free(app->parser);
     stream_free(app->stream);
-    furi_record_close("storage");
+    furi_record_close(RECORD_STORAGE);
 
     notification_message(app->notification, &sequence_display_backlight_enforce_auto);
     furi_record_close("notification");
@@ -207,7 +209,7 @@ static void ctrl_callback(WavPlayerCtrl ctrl, void* ctx) {
 }
 
 static void app_run(WavPlayerApp* app) {
-    if(!open_wav_stream(app->storage, app->stream)) return;
+    if(!open_wav_stream(app->stream)) return;
     if(!wav_parser_parse(app->parser, app->stream)) return;
 
     wav_player_view_set_volume(app->view, app->volume);
@@ -254,19 +256,19 @@ static void app_run(WavPlayerApp* app) {
                         StreamOffsetFromStart);
                 }
             } else if(event.type == WavPlayerEventCtrlVolUp) {
-                if(app->volume < 9.9) app->volume += 0.2;
+                if(app->volume < 9.9) app->volume += 0.4;
                 wav_player_view_set_volume(app->view, app->volume);
             } else if(event.type == WavPlayerEventCtrlVolDn) {
-                if(app->volume > 0.01) app->volume -= 0.2;
+                if(app->volume > 0.01) app->volume -= 0.4;
                 wav_player_view_set_volume(app->view, app->volume);
             } else if(event.type == WavPlayerEventCtrlMoveL) {
                 int32_t seek = stream_tell(app->stream) - wav_parser_get_data_start(app->parser);
-                seek = MIN(seek, wav_parser_get_data_len(app->parser) / 100);
+                seek = MIN(seek, (int32_t)(wav_parser_get_data_len(app->parser) / (size_t)100));
                 stream_seek(app->stream, -seek, StreamOffsetFromCurrent);
                 wav_player_view_set_current(app->view, stream_tell(app->stream));
             } else if(event.type == WavPlayerEventCtrlMoveR) {
                 int32_t seek = wav_parser_get_data_end(app->parser) - stream_tell(app->stream);
-                seek = MIN(seek, wav_parser_get_data_len(app->parser) / 100);
+                seek = MIN(seek, (int32_t)(wav_parser_get_data_len(app->parser) / (size_t)100));
                 stream_seek(app->stream, seek, StreamOffsetFromCurrent);
                 wav_player_view_set_current(app->view, stream_tell(app->stream));
             } else if(event.type == WavPlayerEventCtrlOk) {
@@ -291,7 +293,15 @@ static void app_run(WavPlayerApp* app) {
 }
 
 int32_t wav_player_app(void* p) {
+    UNUSED(p);
     WavPlayerApp* app = app_alloc();
+
+    Storage* storage = furi_record_open(RECORD_STORAGE);
+    if(!storage_simply_mkdir(storage, WAVPLAYER_FOLDER)) {
+        FURI_LOG_E(TAG, "Could not create folder %s", WAVPLAYER_FOLDER);
+    }
+    furi_record_close(RECORD_STORAGE);
+
     app_run(app);
     app_free(app);
     return 0;

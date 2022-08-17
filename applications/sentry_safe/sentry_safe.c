@@ -92,6 +92,7 @@ int32_t sentry_safe_app(void* p) {
     ValueMutex state_mutex;
     if(!init_mutex(&state_mutex, sentry_state, sizeof(SentryState))) {
         FURI_LOG_E("SentrySafe", "cannot create mutex\r\n");
+        furi_message_queue_free(event_queue);
         free(sentry_state);
         return 255;
     }
@@ -101,7 +102,7 @@ int32_t sentry_safe_app(void* p) {
     view_port_input_callback_set(view_port, sentry_safe_input_callback, event_queue);
 
     // Open GUI and register view_port
-    Gui* gui = furi_record_open("gui");
+    Gui* gui = furi_record_open(RECORD_GUI);
     gui_add_view_port(gui, view_port, GuiLayerFullscreen);
 
     Event event;
@@ -123,7 +124,6 @@ int32_t sentry_safe_app(void* p) {
                         break;
                     case InputKeyLeft:
                         break;
-
                     case InputKeyOk:
 
                         if(sentry_state->status == 2) {
@@ -156,7 +156,7 @@ int32_t sentry_safe_app(void* p) {
 
     view_port_enabled_set(view_port, false);
     gui_remove_view_port(gui, view_port);
-    furi_record_close("gui");
+    furi_record_close(RECORD_GUI);
     view_port_free(view_port);
     furi_message_queue_free(event_queue);
     delete_mutex(&state_mutex);

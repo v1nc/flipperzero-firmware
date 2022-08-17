@@ -310,8 +310,8 @@ int32_t tictactoe_game_app(void* p) {
     ValueMutex state_mutex;
     if(!init_mutex(&state_mutex, tictactoe_state, sizeof(TicTacToeState))) {
         FURI_LOG_E(TAG, "Cannot create mutex\r\n");
-        free(tictactoe_state);
         furi_message_queue_free(event_queue);
+        free(tictactoe_state);
         return 255;
     }
 
@@ -327,7 +327,7 @@ int32_t tictactoe_game_app(void* p) {
     tictactoe_state_init(tictactoe_state);
 
     // Open GUI and register view_port
-    Gui* gui = furi_record_open("gui");
+    Gui* gui = furi_record_open(RECORD_GUI);
     gui_add_view_port(gui, view_port, GuiLayerFullscreen);
 
     GameEvent event;
@@ -373,7 +373,7 @@ int32_t tictactoe_game_app(void* p) {
     furi_timer_free(tictactoe_state->timer);
     view_port_enabled_set(view_port, false);
     gui_remove_view_port(gui, view_port);
-    furi_record_close("gui");
+    furi_record_close(RECORD_GUI);
     view_port_free(view_port);
     furi_message_queue_free(event_queue);
     delete_mutex(&state_mutex);
