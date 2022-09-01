@@ -7,6 +7,7 @@ It is intended to be as vanilla as possible, with functional additions but no de
 
 For any problem create an issue or check out the original firmware repo.
 
+__Atm builds are a bit delayed, but currently there are no big changes in this firmware, so you can install unleashed if you dont want to merge upstream and build the firmware yourself.__
 ## Installation:
 * download from [releases](https://github.com/v1nc/flipperzero-firmware/releases)
 * [build](https://github.com/v1nc/flipperzero-firmware/blob/dev/documentation/HowToBuild.md) it yourself
