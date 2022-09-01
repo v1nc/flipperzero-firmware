@@ -3,7 +3,7 @@ App(
     name="Basic services",
     apptype=FlipperAppType.METAPACKAGE,
     provides=[
-        "rpc",
+        "rpc_start",
         "bt",
         "desktop",
         "loader",
@@ -73,7 +73,6 @@ App(
     apptype=FlipperAppType.METAPACKAGE,
     provides=[
         "picopass",
-        "hid_analyzer",
         "barcode_generator",
         "mouse_jacker",
         "nrf_sniff",
@@ -83,6 +82,7 @@ App(
         "wifi_scanner",
         "APPS_MouseJiggler",
         "wav_player",
-        "dec_hex_converter",
+        "multi_converter",
+        "flipfrid",
     ],
 )
