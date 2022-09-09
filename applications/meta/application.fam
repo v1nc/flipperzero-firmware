@@ -84,5 +84,6 @@ App(
         #"wav_player",
         "multi_converter",
         "flipfrid",
+        "subbrute",
     ],
 )

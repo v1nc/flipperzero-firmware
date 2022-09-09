@@ -1,19 +1,19 @@
 ### New changes
-* NRF24 sniffer - tweak sniff parameters for more speed and reliability (by @mothball187) (PR #51)
-* Fixed text in LF RFID -> Extra Actions
+* Fix picopass plugin (revert OFW PR 1701)
 * Updated universal remote assets (by @Amec0e)
-* OFW PR: SubGHz decode raw gui (by @qistoph) (PR 1667) / xMasterX: Replaced custom image with default one & Fixed Led don't stop blink after pressing Send from decoder scene
-* WAV Player plugin excluded from releases to save space, you can enable it in `applications\meta` for your builds
-* OFW PR: SubGhz: add protocol Intertechno_V3 - OFW PR 1622
-* OFW PR: SubGhz: add protocol Prastel - OFW PR 1674
-* OFW PR: Fix displaying LFRFID protocol names - OFW PR 1682 / xMasterX: Fixed display for N/A manufacturer
-* OFW: LF RFID - PAC/Stanley, Paradox, Jablotron, Viking, Pyramid protocols support
-* OFW: Picopass write (PR 1658)
-* OFW: SubGhz: fix CLI "subghz tx"
-* OFW: IR: Fix crash after cancelling Learn New Remote
-* OFW: SubGhz: output debug data to external pin
-* OFW: Speedup SD card & enlarge your RAM
-* OFW: Other small changes
+### Changes from previous release
+* Add SubGhz Bruteforce plugin (by @Ganapati & @xMasterX) (PR #57) - saving functionality and many fixes by @xMasterX
+* Fix GUI and add new icon in LF-RFID App (icon by @Svaarich)
+* GUI Changes to LFRFID Fuzzer
+* New Battery info (from @theeogflip) (PR #60)
+* NRFSniff: Adds unique count display (by @Graf3x) (PR #56)
+* Updated universal remote assets (by @Amec0e)
+* OFW: RFID app port to plain C
+* OFW: SubGhz: fix decoder keeloq
+* OFW PR: Picopass: detect and show SE / SIO - OFW PR 1701 (by pcunning)
+* OFW PR: Fix MFClassic 4k reading - OFW PR 1712 (by Astrrra)
+* OFW: SubGhz: handle missing key in cryptostore. Lib: lower default display contrast.
+* OFW: Furi: wait for timer wind down in destructor 
 
 **Note: To avoid issues prefer installing using web updater or by self update package, all needed assets will be installed**
 
